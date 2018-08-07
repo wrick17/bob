@@ -2,14 +2,14 @@ import React, { Component } from 'react';
 import 'isomorphic-unfetch';
 import AdminLayout from '../components/admin/layout';
 import List from '../components/admin/list';
-import { getSites } from '../utils/admin';
+import { getSites, adminApi } from '../utils/admin';
 import Heading from '../segments/heading';
 import { withRouter } from 'next/router'
 
 class Admin extends Component {
   
   static async getInitialProps() {
-    const sites = await getSites();
+    const sites = await adminApi.getSites();
     return { sites };
   }
 

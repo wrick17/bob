@@ -50,11 +50,12 @@ class Page extends Component {
       return <NotFound />
     }
 
-    console.log(this.props);
     return (
       <Layout data={data} >
-        <div>This website is not owned or operated by {data.name}</div>
-        <div>{this.generateContent(content[pageId])}</div>
+        <div className="container">
+          <div>This website is not owned or operated by {data.name}</div>
+          {this.generateContent(content[pageId])}
+        </div>
       </Layout>
     );
   };

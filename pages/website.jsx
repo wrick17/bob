@@ -5,9 +5,11 @@ import AdminLayout from '../components/admin/layout';
 import Sidebar from '../components/admin/sidebar';
 import Content from '../components/admin/content';
 import Button from '../components/button';
+import { adminApi } from '../utils/admin';
 
 class Website extends Component {
   
+
   static async getInitialProps({ query }) {
     const { siteId } = query;
     const data = await getPageData(siteId);
@@ -17,22 +19,64 @@ class Website extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      details: props.data.content.home,
+      data: props.data,
       page: 'home'
     }
+  }
+
+  formDetails = (details) => {
+    const detailsMap = {};
+    details.map((detail, idx) => {
+      const { id, ...props } = detail;
+      detailsMap[id] = { ...detail, order: idx };
+    })
+    return detailsMap;
   }
 
   openPage = (page) => {
     this.setState({ 
       page,
-      details: this.props.data.content[page]
+      data: this.props.data,
     });
+  }
+
+  onChangeContent = (changes) => {
+    const { data, page } = this.state;
+    
+    const newData = {
+      ...data,
+      content: {
+        ...data.content,
+        [page]: {
+          ...data.content[page],
+          fields: data.content[page].fields.map(field => {
+            if (field.id === changes.id) {
+              return {
+                ...field,
+                [changes.item]: changes.value
+              }
+            } else {
+              return field
+            }
+          })
+        }
+      }
+    }
+    this.setState({ data: newData });
+  }
+
+  saveSite = async () => {
+    const res = await adminApi.saveSite({
+      id: this.props.siteId,
+      data: this.state.data
+    });
+    console.log(res);
   }
 
   render() {
     const { content } = this.props.data;
     const pages = Object.keys(content);
-    const { details, page } = this.state;
+    const { data, page } = this.state;
     return (
       <AdminLayout>
         <div className="content">
@@ -44,11 +88,11 @@ class Website extends Component {
               openPage={this.openPage} />
           </aside>
           <main>
-            <Content content={details} />
+            <Content fields={this.formDetails(data.content[page].fields)} onChange={this.onChangeContent} />
           </main>
         </div>
         <div className="save">
-          <Button label="Save" className="float-right" />
+          <Button label="Save" onClick={this.saveSite} className="float-right" />
         </div>
         <style jsx>{`
           .content {

@@ -31,6 +31,14 @@ const AdminLayout = (props) => (
         margin: 0;
         font-family: sans-serif;
       }
+      .input div {
+        padding: 10px 15px;
+        border: 1px solid #DDD;
+        border-radius: 4px;
+        font-size: 14px;
+        word-break: break-word;
+        width: 100%;
+      }
     `}</style>
   </div>
 );
