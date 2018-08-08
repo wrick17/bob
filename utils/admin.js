@@ -25,6 +25,19 @@ export const adminApi = {
     })
       .then(res => res.json())
       .then(data => data)
+  },
+
+  createSite: (data) => {
+    return fetch(`${apiUrl}/create`, {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data)
+    })
+      .then(res => res.json())
+      .then(data => data)
   }
 
 }

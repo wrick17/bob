@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
 import { withRouter } from 'next/router'
+import { Router } from '../routes/admin-routes'
 import { getPageData } from '../utils';
 import AdminLayout from '../components/admin/layout';
 import Sidebar from '../components/admin/sidebar';
 import Content from '../components/admin/content';
 import Button from '../components/button';
 import { adminApi } from '../utils/admin';
+import Settings from '../components/admin/settings';
 
 class Website extends Component {
   
@@ -27,7 +29,7 @@ class Website extends Component {
   formDetails = (details) => {
     const detailsMap = {};
     details.map((detail, idx) => {
-      const { id, ...props } = detail;
+      const { id } = detail;
       detailsMap[id] = { ...detail, order: idx };
     })
     return detailsMap;
@@ -36,8 +38,18 @@ class Website extends Component {
   openPage = (page) => {
     this.setState({ 
       page,
-      data: this.props.data,
     });
+  }
+
+  onChangeSettings = (changes) => {
+    console.log(changes);
+    const { prop, value } = changes;
+    const { data, page } = this.state;
+    const newData = {
+      ...data,
+      [prop]: value
+    }
+    this.setState({ data: newData });
   }
 
   onChangeContent = (changes) => {
@@ -53,7 +65,7 @@ class Website extends Component {
             if (field.id === changes.id) {
               return {
                 ...field,
-                [changes.item]: changes.value
+                [changes.item]: changes.value.replace('<br>', '<br/>')
               }
             } else {
               return field
@@ -65,12 +77,17 @@ class Website extends Component {
     this.setState({ data: newData });
   }
 
+  goBack = () => {
+    Router.push('/');
+  }
+
   saveSite = async () => {
     const res = await adminApi.saveSite({
       id: this.props.siteId,
       data: this.state.data
     });
     console.log(res);
+    this.setState({ data: res });
   }
 
   render() {
@@ -88,11 +105,13 @@ class Website extends Component {
               openPage={this.openPage} />
           </aside>
           <main>
-            <Content fields={this.formDetails(data.content[page].fields)} onChange={this.onChangeContent} />
+            {page === 'settings' && <Settings data={data} onChange={this.onChangeSettings} /> }
+            { page !== 'settings' &&  <Content fields={this.formDetails(data.content[page].fields)} onChange={this.onChangeContent} />}
           </main>
         </div>
         <div className="save">
-          <Button label="Save" onClick={this.saveSite} className="float-right" />
+          <Button label="Back" onClick={this.goBack} />
+          <Button label="Save" onClick={this.saveSite} />
         </div>
         <style jsx>{`
           .content {
@@ -102,6 +121,8 @@ class Website extends Component {
           aside {
             flex: 0 0 250px;
             box-shadow: 5px 0 5px -4px rgba(0,0,0,0.2);
+            display: flex;
+            flex-direction: column;
           }
           main {
             flex: 1 1 auto;
@@ -114,7 +135,7 @@ class Website extends Component {
             z-index: 100;
             padding: 10px;
             display: flex;
-            justify-content: flex-end;
+            justify-content: space-between;
           }
         `}</style>
       </AdminLayout>

@@ -1,17 +1,33 @@
 import React from 'react'
-import ContentEditable from 'react-contenteditable'
+import cx from 'classnames'
 
-const Text = ({ onChange, data }) => (
+const Text = ({ onChange, data, route }) => (
   <div className="block">
     <div className="input">
-      <ContentEditable 
-        html={data}
-        onChange={onChange}
-        tagName='div' />
+      <input type="text" value={data} onChange={onChange} className={cx({ route })} />
+      { route && <span>/</span> }
     </div>
     <style jsx>{`
       .block {
         margin-bottom: 15px;
+        position: relative;
+      }
+      input {
+        padding: 10px 15px;
+        border: 1px solid #DDD;
+        border-radius: 4px;
+        font-size: 14px;
+        word-break: break-word;
+        width: 100%;
+      }
+      .route {
+        padding-left: 20px;
+      }
+      span {
+        position: absolute;
+        left: 15px;
+        top: 50%;
+        transform: translateY(-50%);
       }
     `}</style>
   </div>

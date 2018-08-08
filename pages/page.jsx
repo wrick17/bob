@@ -8,8 +8,10 @@ import Heading from '../segments/heading';
 import Image from '../segments/image';
 import Layout from '../components/layout';
 import NotFound from './not-found';
+import Text from '../segments/text';
 
 const segmentMap = {
+  text: Text,
   paragraph: Paragraph,
   heading: Heading,
   image: Image
@@ -27,7 +29,7 @@ class Page extends Component {
     }
 
     if (!pageId) {
-      res.redirect(homePage);
+      res.send(homePage);
     }
     if (!data.content[pageId]) {
       return res.status(404).redirect(homePage);

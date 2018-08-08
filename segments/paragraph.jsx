@@ -1,7 +1,8 @@
 import React from 'react';
 
-const Paragraph = ({text}) => (
-  <p>{text}</p>
+const Paragraph = ({ content}) => (
+  // <p dangerouslySetInnerHTML={{ __html: content }} />
+  <p>{content}</p>
 );
 
 export default Paragraph;
