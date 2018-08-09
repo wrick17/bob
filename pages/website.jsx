@@ -8,6 +8,7 @@ import Content from '../components/admin/content';
 import Button from '../components/button';
 import { adminApi } from '../utils/admin';
 import Settings from '../components/admin/settings';
+import { allowedRoutes } from '../constants';
 
 class Website extends Component {
   
@@ -42,9 +43,8 @@ class Website extends Component {
   }
 
   onChangeSettings = (changes) => {
-    console.log(changes);
     const { prop, value } = changes;
-    const { data, page } = this.state;
+    const { data } = this.state;
     const newData = {
       ...data,
       [prop]: value
@@ -92,7 +92,7 @@ class Website extends Component {
 
   render() {
     const { content } = this.props.data;
-    const pages = Object.keys(content);
+    const pages = Object.keys(content).filter(page => allowedRoutes.indexOf(page) !== -1);
     const { data, page } = this.state;
     return (
       <AdminLayout>

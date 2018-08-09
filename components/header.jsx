@@ -1,5 +1,6 @@
 import { Component } from 'react';
 import { Link } from '../routes/frontend-routes'
+import { allowedRoutes } from '../constants';
 
 class Header extends Component {
   constructor(props) {
@@ -29,20 +30,19 @@ class Header extends Component {
 
   render() {
     const { data } = this.props;
-    const { name, route } = data;
-    const pages = Object.keys(data.content);
-    const site = process.env.NODE_ENV === 'development' ? `/${route}` : '';
+    const { name } = data;
+    const pages = Object.keys(data.content).filter(page => allowedRoutes.indexOf(page) !== -1);
 
     return (
       <header>
         <div className="container">
           <div className="contents">
-            <label>{name}</label>
+            <Link route="/home"><a className="logo">{name}</a></Link>
             <nav id="nav">
               <span onClick={this.toggleDropdown} className="trigger" >☰</span>
               <ul className={ !this.state.isOpen && 'hidden' } >
               {
-                pages.map(page => <Link key={page} route={`${site}/${page}`}><a onClick={this.toggleDropdown}>{data.content[page].label}</a></Link>)
+                pages.map(page => <Link key={page} route={`/${page}`}><a onClick={this.toggleDropdown}>{data.content[page].label}</a></Link>)
               }
               </ul>
             </nav>
@@ -61,10 +61,13 @@ class Header extends Component {
             align-items: center;
             justify-content: space-between;
           }
-          label {
+          .logo {
             font-size: 24px;
             font-weight: bold;
             display: inline-block;
+            cursor: pointer;
+            text-decoration: none;
+            color: white;
           }
           .trigger {
             display: none;

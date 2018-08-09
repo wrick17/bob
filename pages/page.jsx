@@ -2,13 +2,14 @@ import React, { Component } from 'react';
 import 'isomorphic-unfetch';
 import { withRouter } from 'next/router'
 
-import { getPageData } from '../utils';
+import { getPageData, getVenueData } from '../utils';
 import Paragraph from '../segments/paragraph';
 import Heading from '../segments/heading';
 import Image from '../segments/image';
 import Layout from '../components/layout';
 import NotFound from './not-found';
 import Text from '../segments/text';
+import Table from '../components/table';
 
 const segmentMap = {
   text: Text,
@@ -19,22 +20,25 @@ const segmentMap = {
 
 class Page extends Component {
   
-  static async getInitialProps({ query, res }) {
-    const { siteId, pageId } = query;
-    const homePage = process.env.NODE_ENV === 'development' ? `/${siteId}/home` : '/home'
+  static async getInitialProps({ req, query, res }) {
+    const { pageId } = query;
+
+    const host = req ? req.headers.host : location.host;
+    const subdomain = host.split('.')[0];
     
-    const data = await getPageData(siteId);
+    const data = await getPageData(subdomain);
     if (!data.content) {
-      return { data, pageId }
+      return { data: {} };
     }
 
     if (!pageId) {
-      res.send(homePage);
+      res.redirect('/home');
     }
-    if (!data.content[pageId]) {
-      return res.status(404).redirect(homePage);
-    }
-    return { data, pageId };
+    const venueRes = await getVenueData(237, 7928);
+    const links = venueRes._links;
+    console.log(venueRes)
+
+    return { data, pageId, links };
   }
 
   generateContent = (content) => {
@@ -44,8 +48,14 @@ class Page extends Component {
     })
   }
 
+  // async componentDidMount() {
+  //   const venueRes = await getVenueData(237, 7928);
+  //   console.log(venueRes._links);
+  //   const links = venueRes._links;
+  // }
+
   render() {
-    const { data, pageId } = this.props;
+    const { data, pageId, links } = this.props;
     const { content } = data;
 
     if (!content) {
@@ -57,6 +67,7 @@ class Page extends Component {
         <div className="container">
           <div>This website is not owned or operated by {data.name}</div>
           {this.generateContent(content[pageId])}
+          <Table links={[]} />
         </div>
       </Layout>
     );

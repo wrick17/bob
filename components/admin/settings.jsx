@@ -2,7 +2,7 @@ import React from 'react';
 import Text from '../../segments/admin/text';
 
 const Settings = ({ data, onChange }) => {
-  const { name = '', route = '' } = data || {};
+  const { name = '', route = '', eventId = '' } = data || {};
   return (
     <div>
       <div className="group">
@@ -12,6 +12,10 @@ const Settings = ({ data, onChange }) => {
       <div className="group">
         <label>Route: </label>
         <Text data={route} route onChange={e => onChange({ prop: 'route', value: e.target.value })} />
+      </div>
+      <div className="group">
+        <label>Event ID: </label>
+        <Text data={eventId} onChange={e => onChange({ prop: 'eventId', value: e.target.value })} />
       </div>
       <style jsx>{`
       label {
