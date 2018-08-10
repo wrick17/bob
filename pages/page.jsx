@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import 'isomorphic-unfetch';
+import atob from 'atob'
 import { withRouter } from 'next/router'
 
 import { getPageData, getVenueData } from '../utils';
@@ -25,7 +26,10 @@ class Page extends Component {
 
     const host = req ? req.headers.host : location.host;
     const subdomain = host.split('.')[0];
-    
+
+    const venueRes = await getVenueData(237, 7928);
+    const links = venueRes;
+
     const data = await getPageData(subdomain);
     if (!data.content) {
       return { data: {} };
@@ -34,9 +38,6 @@ class Page extends Component {
     if (!pageId) {
       res.redirect('/home');
     }
-    const venueRes = await getVenueData(237, 7928);
-    const links = venueRes._links;
-    console.log(venueRes)
 
     return { data, pageId, links };
   }
@@ -48,15 +49,16 @@ class Page extends Component {
     })
   }
 
-  // async componentDidMount() {
-  //   const venueRes = await getVenueData(237, 7928);
-  //   console.log(venueRes._links);
-  //   const links = venueRes._links;
-  // }
+  async componentDidMount() {
+    const venueRes = await getVenueData(237, 7928);
+    console.log(venueRes);
+    const links = venueRes._links;
+  }
 
   render() {
     const { data, pageId, links } = this.props;
     const { content } = data;
+    console.log(links)
 
     if (!content) {
       return <NotFound />

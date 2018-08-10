@@ -4,6 +4,8 @@
   "description": "",
   "main": "index.js",
   "dependencies": {
+    "atob": "^2.1.1",
+    "btoa": "^1.2.1",
     "classnames": "^2.2.6",
     "draft-js": "^0.10.5",
     "draft-js-export-html": "^1.2.0",
@@ -20,7 +22,8 @@
     "react-no-ssr": "^1.1.0",
     "react-rte": "^0.16.1",
     "react-ssr": "^1.1.2",
-    "showdown": "^1.8.6"
+    "showdown": "^1.8.6",
+    "text-encoding": "^0.6.4"
   },
   "scripts": {
     "frontend": "nodemon frontend-server.js",
