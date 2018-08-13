@@ -49,16 +49,16 @@ class Page extends Component {
     })
   }
 
-  async componentDidMount() {
-    const venueRes = await getVenueData(237, 7928);
-    console.log(venueRes);
-    const links = venueRes._links;
-  }
+  // async componentDidMount() {
+  //   const venueRes = await getVenueData(237, 7928);
+  //   console.log(venueRes);
+  //   const links = venueRes._links;
+  // }
 
   render() {
     const { data, pageId, links } = this.props;
     const { content } = data;
-    console.log(links)
+    console.log('-------------\n', links)
 
     if (!content) {
       return <NotFound />

@@ -1,10 +1,10 @@
 import React from 'react'
 import cx from 'classnames'
 
-const Text = ({ onChange, data, route }) => (
+const Text = ({ onChange, data, route, type = 'text', placeholder = '' }) => (
   <div className="block">
     <div className="input">
-      <input type="text" value={data} onChange={onChange} className={cx({ route })} />
+      <input type="text" type={type} placeholder={placeholder} value={data} onChange={onChange} className={cx({ route })} />
       { route && <span>/</span> }
     </div>
     <style jsx>{`

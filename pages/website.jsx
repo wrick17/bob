@@ -9,13 +9,24 @@ import Button from '../components/button';
 import { adminApi } from '../utils/admin';
 import Settings from '../components/admin/settings';
 import { allowedRoutes } from '../constants';
+import cookies from 'next-cookies'
+import Cookies from 'js-cookie'
 
 class Website extends Component {
   
 
-  static async getInitialProps({ query }) {
+  static async getInitialProps(ctx) {
+    const { res, query } = ctx;
+    const { session } = cookies(ctx)
+    if (!session) {
+      if (res) {
+        res.redirect('/login');
+      } else {
+        Router.push('/login')
+      }
+    }
     const { siteId } = query;
-    const data = await getPageData(siteId);
+    const data = await getPageData(siteId, session);
     return { data, siteId };
   }
 
@@ -91,6 +102,9 @@ class Website extends Component {
   }
 
   render() {
+    if (this.props.data.error) {
+      return null;
+    }
     const { content } = this.props.data;
     const pages = Object.keys(content).filter(page => allowedRoutes.indexOf(page) !== -1);
     const { data, page } = this.state;
@@ -99,6 +113,7 @@ class Website extends Component {
         <div className="content">
           <aside>
             <Sidebar 
+              site={this.props.data.name}
               pages={pages}
               content={content}
               selected={page}

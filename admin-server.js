@@ -1,6 +1,7 @@
 const express = require('express')
 const next = require('next')
 const routes = require('./routes/admin-routes')
+const cookieParser = require('cookie-parser');
 
 const dev = process.env.NODE_ENV !== 'production'
 const app = next({ dev })
@@ -10,6 +11,7 @@ app.prepare()
   .then(() => {
     const server = express()
     server.use(handler)
+    server.use(cookieParser())
     
     server.listen(7000, (err) => {
       if (err) throw err

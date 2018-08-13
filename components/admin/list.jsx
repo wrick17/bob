@@ -38,6 +38,18 @@ class List extends Component {
     const { newSite, data } = this.state;
     return (
       <div className="sites">
+        <div className="wrapper">
+          {
+            newSite ?
+              <div className="new-website" >
+                <Settings data={data} onChange={this.changeSiteData} />
+                <Button label="Cancel" onClick={this.hideNewSite} />
+                <Button label="Create" onClick={this.createSite} className="f-r" />
+              </div>
+              :
+              <Button label="Add New" className="f-r" onClick={this.showNewSite} />
+          }
+        </div>
         {
           sites.map(site => (
             <Link route={`/${site.route}`} key={site.route}>
@@ -54,19 +66,11 @@ class List extends Component {
             </Link>
           ))
         }
-        <div className="wrapper">
-          {
-            newSite ?
-              <div className="new-website" >
-                <Settings data={data} onChange={this.changeSiteData} />
-                <Button label="Cancel" onClick={this.hideNewSite} />
-                <Button label="Create" onClick={this.createSite} className="f-r" />
-              </div>
-              :
-              <Button label="Add New" className="f-r" onClick={this.showNewSite} />
-          }
-        </div>
         <style jsx>{`
+          .wrapper {
+            overflow: hidden;
+            margin-bottom: 20px;
+          }
           .site, .new-website {
             display: block;
             padding: 20px 25px;

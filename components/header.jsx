@@ -1,6 +1,6 @@
 import { Component } from 'react';
 import { Link } from '../routes/frontend-routes'
-import { allowedRoutes } from '../constants';
+import { allowedRoutes, accentColor } from '../constants';
 
 class Header extends Component {
   constructor(props) {
@@ -52,7 +52,7 @@ class Header extends Component {
           header {
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
             margin-bottom: 20px;
-            background: #5E60FF;
+            background: ${accentColor};
             padding: 15px 0;
           }
           .contents {
@@ -113,7 +113,7 @@ class Header extends Component {
               margin-left: 0;
             }
             nav a:hover {
-              background: #5E60FF;
+              background: ${accentColor};
               color: white;
             }
           }
