@@ -37,7 +37,7 @@ class Header extends Component {
       <header>
         <div className="container">
           <div className="contents">
-            <Link route="/home"><a className="logo">{name}</a></Link>
+            {/* <Link route="/home"><a className="logo">{name}</a></Link> */}
             <nav id="nav">
               <span onClick={this.toggleDropdown} className="trigger" >☰</span>
               <ul className={ !this.state.isOpen && 'hidden' } >
@@ -59,7 +59,7 @@ class Header extends Component {
             color: white;
             display: flex;
             align-items: center;
-            justify-content: space-between;
+            justify-content: center;
           }
           .logo {
             font-size: 24px;

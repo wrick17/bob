@@ -1,11 +1,13 @@
 import Text from "../../segments/admin/text";
 import Bulky from "../../segments/admin/bulky";
 import ImageInput from "../../segments/admin/image";
+import Tickets from "../../segments/admin/tickets";
 
 const map = {
   text: Text,
   link: ImageInput,
   content: Bulky,
+  tickets: Tickets,
 }
 
 const getComponent = (faring, onChange) => {

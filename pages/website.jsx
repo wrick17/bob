@@ -128,6 +128,7 @@ class Website extends Component {
           <Button label="Back" onClick={this.goBack} />
           <Button label="Save" onClick={this.saveSite} />
         </div>
+
         <style jsx>{`
           .content {
             display: flex;

@@ -3,7 +3,7 @@ import 'isomorphic-unfetch';
 import atob from 'atob'
 import { withRouter } from 'next/router'
 
-import { getPageData, getVenueData } from '../utils';
+import { getPageData, getVenueData, getVenueDataServer } from '../utils';
 import Paragraph from '../segments/paragraph';
 import Heading from '../segments/heading';
 import Image from '../segments/image';
@@ -16,19 +16,24 @@ const segmentMap = {
   text: Text,
   paragraph: Paragraph,
   heading: Heading,
-  image: Image
+  image: Image,
+  tickets: Table,
 }
 
 class Page extends Component {
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      links: []
+    }
+  }
   
   static async getInitialProps({ req, query, res }) {
     const { pageId } = query;
 
     const host = req ? req.headers.host : location.host;
     const subdomain = host.split('.')[0];
-
-    const venueRes = await getVenueData(237, 7928);
-    const links = venueRes;
 
     const data = await getPageData(subdomain);
     if (!data.content) {
@@ -39,26 +44,27 @@ class Page extends Component {
       res.redirect('/home');
     }
 
-    return { data, pageId, links };
+    return { data, pageId };
   }
 
   generateContent = (content) => {
     return content.fields.map((segment, key) => {
       const ComposedComponent = segmentMap[segment.type];
-      return <ComposedComponent key={key} {...segment} />
+      return <ComposedComponent key={key} {...segment} links={this.state.links} />
     })
   }
 
-  // async componentDidMount() {
-  //   const venueRes = await getVenueData(237, 7928);
-  //   console.log(venueRes);
-  //   const links = venueRes._links;
-  // }
+  async componentDidMount() {
+    const venueRes = await getVenueData(7928);
+    const links = venueRes.results;
+    this.setState({ links });
+  }
 
   render() {
-    const { data, pageId, links } = this.props;
+    const { data, pageId } = this.props;
+    
+    const { links } = this.state;
     const { content } = data;
-    console.log('-------------\n', links)
 
     if (!content) {
       return <NotFound />
@@ -67,9 +73,20 @@ class Page extends Component {
     return (
       <Layout data={data} >
         <div className="container">
-          <div>This website is not owned or operated by {data.name}</div>
+          <div className="disclaimer">This website is not owned or operated by {data.name}</div>
+          <h1>{data.name}</h1>
           {this.generateContent(content[pageId])}
-          <Table links={[]} />
+          <style jsx>{`
+            h1 {
+              text-align: center;
+              margin: 40px 0 60px;
+            }
+            .disclaimer {
+              text-align: center;
+              font-weight: bold;
+              color: #333;
+            }
+          `}</style>
         </div>
       </Layout>
     );
