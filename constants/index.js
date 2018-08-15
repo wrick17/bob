@@ -1,4 +1,4 @@
-export const apiUrl = 'http://ec2-34-193-93-25.compute-1.amazonaws.com';
+export const apiUrl = 'http://api.ec2-34-193-93-25.compute-1.amazonaws.com';
 
 export const allowedRoutes = ['home'];
 
