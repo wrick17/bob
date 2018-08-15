@@ -12,7 +12,6 @@
     "draft-js": "^0.10.5",
     "draft-js-export-html": "^1.2.0",
     "express": "^4.16.3",
-    "forever": "^0.15.3",
     "isomorphic-unfetch": "^2.1.1",
     "js-cookie": "^2.2.0",
     "next": "^6.1.1",
@@ -35,8 +34,8 @@
     "frontend": "nodemon frontend-server.js",
     "admin": "nodemon admin-server.js",
     "build": "next build",
-    "start-frontend": "NODE_ENV=production forever frontend-server.js",
-    "start-admin": "NODE_ENV=production forever admin-server.js"
+    "start-frontend": "NODE_ENV=production node frontend-server.js",
+    "start-admin": "NODE_ENV=production node admin-server.js"
   },
   "author": "",
   "license": "ISC",
