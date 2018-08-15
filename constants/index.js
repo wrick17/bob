@@ -1,4 +1,4 @@
-export const apiUrl = 'http://localhost:8080/v1';
+export const apiUrl = 'http://ec2-34-193-93-25.compute-1.amazonaws.com';
 
 export const allowedRoutes = ['home'];
 
