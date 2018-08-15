@@ -55,7 +55,7 @@ class Page extends Component {
   }
 
   async componentDidMount() {
-    const venueRes = await getVenueData(7928);
+    const venueRes = await getVenueData(this.props.data.eventId || 7928);
     const links = venueRes.results;
     this.setState({ links });
   }
