@@ -1,4 +1,6 @@
-export const apiUrl = 'http://api.ec2-34-193-93-25.compute-1.amazonaws.com';
+console.log(process.env.BACKEND_URL)
+
+export const apiUrl = process.env.BACKEND_URL;
 
 export const allowedRoutes = ['home'];
 

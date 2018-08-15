@@ -52,7 +52,7 @@ class Header extends Component {
           header {
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
             margin-bottom: 20px;
-            background: ${accentColor};
+            background: #333;
             padding: 15px 0;
           }
           .contents {
