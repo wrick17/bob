@@ -40,29 +40,32 @@ const Table = ({ links }) => {
       <style jsx>{`
       ul {
         padding-left: 0;
-        border: 1px solid #DDD;
+        border: 1px solid #333;
         margin-top: 20px;
       }
       .event {
         list-style: none;
         display: flex;
         width: 100%;
-        padding: 15px 15px 15px 0;
-        border-bottom: 1px solid #DDD;
+        border-bottom: 1px solid #333;
         align-items: center;
       }
       .event:last-child {
         border-bottom: none;
       }
+      .left, .middle, .right {
+        padding: 15px;
+      }
       .left {
-        flex: 0 0 100px;
+        flex: 0 0 80px;
         text-align: center;
+        border-right: 1px solid #333;
       }
       .middle {
         flex: 1;
       }
       .right {
-        flex: 0 0 140px;
+        flex: 0 0 170px;
       }
       .date {
         color: red;

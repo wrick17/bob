@@ -12,7 +12,7 @@ export const getPageData = (siteId, session) => {
 }
 
 export const getVenueData = (venueId) => {
-  return fetch(`https://www.tn-apis.com/catalog/v1/events/search?q=*&filter=venue%2Fid%20eq%20${venueId}&perPage=4`, {
+  return fetch(`${apiUrl}/api/venue/${venueId}`, {
     method: 'GET',
     headers: {
       'Authorization': 'Bearer 2efaf2c8-6885-3e82-b387-6d4d5655883b',
@@ -23,7 +23,7 @@ export const getVenueData = (venueId) => {
 }
 
 export const getVenueDataServer = (venueId) => {
-  return fetch(`https://www.tn-apis.com/catalog/v1/events/search?q=*&filter=venue%2Fid%20eq%20${venueId}&perPage=4`, {
+  return fetch(`${apiUrl}/api/venue/${venueId}`, {
     method: 'GET',
     headers: {
       'Authorization': 'Bearer 2efaf2c8-6885-3e82-b387-6d4d5655883b',

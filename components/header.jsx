@@ -12,7 +12,7 @@ class Header extends Component {
 
   closeDropdown = (e) => {
     if (!document.getElementById('nav').contains(e.target)) {
-      this.setState({ isOpen: false });
+      this.setState({ isOpen: true });
     }
   }
 
@@ -51,7 +51,6 @@ class Header extends Component {
         <style jsx>{`
           header {
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-            margin-bottom: 20px;
             background: #333;
             padding: 15px 0;
           }
@@ -91,6 +90,9 @@ class Header extends Component {
             text-decoration: underline;
           }
           @media (max-width: 768px) {
+            .contents {
+              justify-content: flex-end;
+            }
             .trigger {
               display: inline-block;
             }
@@ -104,6 +106,10 @@ class Header extends Component {
               background: white;
               box-shadow: 0 2px 5px rgba(0,0,0,0.2);
               padding: 10px 0;
+              display: none;
+            }
+            nav:hover ul {
+              display: block;
             }
             nav a {
               display: inline-block;

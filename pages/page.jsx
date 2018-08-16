@@ -21,13 +21,6 @@ const segmentMap = {
 }
 
 class Page extends Component {
-
-  constructor(props) {
-    super(props);
-    this.state = {
-      links: []
-    }
-  }
   
   static async getInitialProps({ req, query, res }) {
     const { pageId } = query;
@@ -44,26 +37,20 @@ class Page extends Component {
       res.redirect('/home');
     }
 
-    return { data, pageId };
+    const venueDetails = JSON.parse(await getVenueDataServer(data.eventId));
+
+    return { data, pageId, venueDetails };
   }
 
   generateContent = (content) => {
     return content.fields.map((segment, key) => {
       const ComposedComponent = segmentMap[segment.type];
-      return <ComposedComponent key={key} {...segment} links={this.state.links} />
+      return <ComposedComponent key={key} {...segment} links={this.props.venueDetails.results} />
     })
-  }
-
-  async componentDidMount() {
-    const venueRes = await getVenueData(this.props.data.eventId || 7928);
-    const links = venueRes.results;
-    this.setState({ links });
   }
 
   render() {
     const { data, pageId } = this.props;
-    
-    const { links } = this.state;
     const { content } = data;
 
     if (!content) {
@@ -73,18 +60,19 @@ class Page extends Component {
     return (
       <Layout data={data} >
         <div className="container">
-          <div className="disclaimer">This website is not owned or operated by {data.name}</div>
           <h1>{data.name}</h1>
+          <h2>Tickets</h2>
           {this.generateContent(content[pageId])}
           <style jsx>{`
             h1 {
               text-align: center;
-              margin: 40px 0 60px;
+              margin: 40px 0 10px;
             }
-            .disclaimer {
+            h2 {
               text-align: center;
-              font-weight: bold;
-              color: #333;
+              margin: 0px 0 60px;
+              color: #777;
+              font-weight: normal;
             }
           `}</style>
         </div>
